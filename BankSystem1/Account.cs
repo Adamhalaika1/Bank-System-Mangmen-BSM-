@@ -8,6 +8,9 @@ namespace BankSystem1
 {
     public class Account
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public int Id { get; }
         private static int nextId = 1;
         public string Role { get; set; }
