@@ -1,9 +1,0 @@
-Id-Email-Name-Age-Balance-Status-Role
-1,s,s,70,1000,True,Admin
-2,A@gmail.com,sami,11,1000,True,User
-3,B@gmail.com,Ahmed,12,900,True,User
-4,C@gmail.com,Mahmod,13,800,True,User
-5,D@gmail.com,Adam,14,700,True,User
-6,E@gmail.com,Islam,15,600,True,User
-7,F@gmail.com,roa,16,500,True,User
-
