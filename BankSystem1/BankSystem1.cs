@@ -1,194 +1,164 @@
-﻿// BankSystem.cs
-using BankSystem1;
+﻿using BankSystem1;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Net.NetworkInformation;
 using System.Security.Principal;
+using System.Xml.Linq;
 
 class BankSystem
 {
-    static Account loggedInAccount;
-    static List<Account> accounts;
+    static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Files", "A.txt");
+    private static bool isRunning = true;
+    static List<Account> accounts = new List<Account>();
     static void Main()
     {
-        accounts = FileHandler.ReadAccountsFromFile();
-        bool isAdmin = false;
-        bool isUser = false;
-        bool isRunning = true;
+        Console.WriteLine("Welcome to the Bank System");
         while (isRunning)
         {
-            Console.WriteLine("Welcome to the Bank System");
-            Console.Write("Enter username: ");
-            string inputUsername = Console.ReadLine();
-
-            Console.Write("Enter password: ");
-            string inputPassword = Console.ReadLine();
-
-            string filePath = @"E:\\BankSystem1-master\\A.txt";
-            string[] lines = File.ReadAllLines(filePath);
-
-            foreach (string line in lines)
+            User user = null;
+            do
             {
-                string[] parts = line.Split(',');
-                if (parts.Length >= 2 && parts[1].Trim() == inputUsername && parts[2].Trim() == inputPassword)
+                string inputUsername = GetInput("Enter username: ");
+                string inputPassword = GetInput("Enter password: ");
+                user = ValidateUser(inputUsername, inputPassword);
+                if (user == null)
                 {
-                    if (parts[6].Trim() == "Admin")
-                    {
-                        isAdmin = true;
-
-                    }
-                    else
-                    {
-                        isAdmin = false;
-                    }
+                    Console.WriteLine("Invalid username or password. Please try again.");
                 }
-                if (parts.Length >= 2 && parts[1].Trim() == inputUsername && parts[2].Trim() == inputPassword)
-                {
+            } while (user == null);
 
-                    if (parts[6].Trim() == "User")
-                    {
-                        isUser = true;
-
-                    }
-                    else
-                    {
-                        isUser = true;
-                    }
-                }
-            }
-            break;
+            user.PrintUserType();
+            MainMenu(user);
         }
-        if (isAdmin)
+    }
+    static private string GetInput(string message)
+    {
+        Console.Write(message);
+        return Console.ReadLine();
+    }
+    static User ValidateUser(string username, string password)
+    {
+        User user = null;
+        string[] lines = File.ReadAllLines(filePath);
+
+        foreach (string line in lines)
         {
-            Console.WriteLine("Login successful as admin!");
-
-            // Main menu loop for Admin
-
-            while (isRunning)
+            string[] parts = line.Split(',');
+            int Id = int.Parse(parts[0].Trim());
+            string Email = parts[1].Trim();
+            string Name = parts[2].Trim();
+            int Age = int.Parse(parts[3].Trim());
+            decimal Balance = decimal.Parse(parts[4].Trim());
+            string Status = parts[5].Trim();
+            string Role = parts[6].Trim();
+            if (Email == username && Name == password)
             {
-                Console.WriteLine("\nSelect an option:");
-                Console.WriteLine("1. Create Account");
-                Console.WriteLine("2. Deposit Money");
-                Console.WriteLine("3. View Active Accounts");
-                Console.WriteLine("4. Activate/Deactivate Account");
-                Console.WriteLine("5. Withdraw Money");
-                Console.WriteLine("6. Update Customer Info");
-                Console.WriteLine("7. Delete Account");
-                Console.WriteLine("8. Exit");
-
-                int choice;
-                if (int.TryParse(Console.ReadLine(), out choice))
-                {
-                    switch (choice)
-                    {
-                        case 1:
-                            CreateAccount();
-                            break;
-                        case 2:
-                            DepositMoney();
-                            break;
-                        case 3:
-                            ViewActiveAccounts();
-                            break;
-                        case 4:
-                            ActivateDeactivateAccount();
-                            break;
-                        case 5:
-                            WithdrawMoney();
-                            break;
-                        case 6:
-                            UpdateCustomerInfo();
-                            break;
-                        case 8:
-                            isRunning = false;
-                            break;
-                        case 7:
-                            DeleteAccount();
-                            break;
-                        default:
-                            Console.WriteLine("Invalid option. Try again.");
-                            break;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input. Please enter a number.");
-                }
+                user = new User(Id, Email, Name, Age, Balance, Status, Role == "Admin" ? User.UserTypes.Admin : User.UserTypes.User);
             }
         }
-
-
-
-        if (isUser)
+        return user;
+    }
+    private static void MainMenu(User user)
+    {
+        if (user.IsAdmin())
         {
-            bool customerMenu = true;
-            while (customerMenu)
+            AdminMainMenu(user);
+        }
+        else if (user.IsUser())
+        {
+            UserMainMenu(user);
+        }
+    }
+    private static void AdminMainMenu(User user)
+    {
+        //string filePath = @"E:\\BankSystem1-master\\A.txt";
+
+        while (isRunning)
+        {
+            Console.WriteLine("\nSelect an option:");
+            Console.WriteLine("1. Create Account");
+            Console.WriteLine("2. Deposit Money");
+            Console.WriteLine("3. View Active Accounts");
+            Console.WriteLine("4. Activate/Deactivate Account");
+            Console.WriteLine("5. Withdraw Money");
+            Console.WriteLine("6. Update Customer Info");
+            Console.WriteLine("7. Delete Account");
+            Console.WriteLine("8. Exit");
+
+            int choice;
+            if (int.TryParse(Console.ReadLine(), out choice))
             {
-                Console.WriteLine("\nCustomer Menu:");
-                Console.WriteLine("1. View Account Info");
-                Console.WriteLine("2. Withdraw Money");
-                Console.WriteLine("3. Deposit Money");
-                Console.WriteLine("5. Update my account");
-                Console.WriteLine("4. Logout");
-
-
-                int customerChoice;
-                if (int.TryParse(Console.ReadLine(), out customerChoice))
+                switch (choice)
                 {
-                    switch (customerChoice)
-                    {
-                        case 1:
-                            ViewAccountInfo();
-                            break;
-                        case 2:
-                            WithdrawMoney();
-                            break;
-                        case 3:
-                            DepositMoney();
-                            break;
-                        case 4:
-                            customerMenu = false;
-                            Console.WriteLine("Logged out as customer.");
-                            break;
-                        case 5:
-                            UpdateCustomerInfo();
-                            break;
-                        default:
-                            Console.WriteLine("Invalid option. Try again.");
-                            break;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input. Please enter a number.");
+                    case 1:
+                        CreateAccount();
+                        break;
+                    case 2:
+                        DepositMoney();
+                        break;
+                    case 3:
+                        ViewActiveAccounts(filePath);
+                        break;
+                    case 4:
+                        ActivateDeactivateAccount();
+                        break;
+                    case 5:
+                        WithdrawMoney();
+                        break;
+                    case 6:
+                        UpdateCustomerInfo();
+                        break;
+                    case 7:
+                        DeleteAccount();
+                        break;
+                    case 8:
+                        Main();
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Try again.");
+                        break;
                 }
             }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter a number.");
+            }
         }
+    }
+    private static void UserMainMenu(User user)
+    {
+        Account account = accounts.FirstOrDefault(a => a.Email == user.Email);
 
-
-
-        else
+        while (isRunning)
         {
-            Console.WriteLine("Login failed. Exiting...");
+
+            Console.WriteLine("\nCustomer Menu:");
+            Console.WriteLine("1. View Account Info");
+            Console.WriteLine("2. Withdraw Money");
+            Console.WriteLine("3. Deposit Money");
+            Console.WriteLine("5. Update my account");
+            Console.WriteLine("4. Logout");
+
+            int customerChoice;
+            if (int.TryParse(Console.ReadLine(), out customerChoice))
+            {
+
+                Transaction transaction = new Transaction(customerChoice,user,account);
+                transaction.ProcessTransaction();
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter a number.");
+            }
         }
-
-        //// Save accounts to file
-        FileHandler.WriteAccountsToFile(accounts);
-
-        //// Save audit file
-        FileHandler.WriteAuditToFile(accounts, loggedInAccount);
-
     }
     static void DepositMoney()
     {
         Console.WriteLine("\nDepositing Money...");
-
-        // Display active accounts
-        ViewActiveAccounts();
-
         Console.Write("Enter Account Email to Deposit Money: ");
         string email = Console.ReadLine();
-
-        // Find the account by email
         Account account = accounts.Find(a => a.Email == email);
 
         if (account != null)
@@ -210,35 +180,25 @@ class BankSystem
             Console.WriteLine("Account not found. Deposit failed.");
         }
     }
-    static void ViewActiveAccounts()
+    static void ViewActiveAccounts(string filePath)
     {
-        Console.WriteLine("\nActive Accounts:");
-        //List<Account> accounts = FileHandler.ReadAccountsFromFile();
-        foreach (var account in accounts)
+        string[] lines = File.ReadAllLines(filePath);
+        Console.WriteLine("Active Accounts:");
+        foreach (string line in lines)
         {
-            if (account.IsActive)
+            string[] data = line.Split(',');
+            if (data.Length >= 2 && data[5].Equals("True", StringComparison.OrdinalIgnoreCase))
             {
-                Console.WriteLine($"Email: {account.Email}, Name: {account.Name}, Balance: ${account.Balance}");
+                Console.WriteLine($"ID: {data[0]}, Email: {data[1]}, Name: {data[2]}, Age: {data[3]}, Balance: {data[4]} Role: {data[6]}");
             }
         }
     }
-
-
-
     static void ActivateDeactivateAccount()
     {
         Console.WriteLine("\nActivating/Deactivating Account...");
-
-        // Display active accounts
-        ViewActiveAccounts();
-
         Console.Write("Enter Account Email to Activate/Deactivate: ");
         string email = Console.ReadLine();
-
-        // Find the account by email
         Account account = accounts.Find(a => a.Email == email);
-        //Account account = accounts.Find(a => a.Id == Id);
-
         if (account != null)
         {
             account.ToggleActiveStatus();
@@ -253,24 +213,38 @@ class BankSystem
     static void CreateAccount()
     {
         Console.WriteLine("\nCreating Account...");
-
-        // Get user input for account creation
         Console.Write("Enter Email: ");
         string email = Console.ReadLine();
-
         Console.Write("Enter Name: ");
         string name = Console.ReadLine();
-        Console.Write("Enter Role: ");
+        Console.WriteLine("Enter Role: ");
+        Console.WriteLine("1.Admin");
+        Console.WriteLine("2.User");
         string role = Console.ReadLine();
-
-        Console.Write("Enter Age: ");
-        int age;
-        if (!int.TryParse(Console.ReadLine(), out age) || age < 0)
+        switch (role)
         {
-            Console.WriteLine("Invalid age. Account creation failed.");
+            case "1":
+                Console.WriteLine("You selected Admin");
+                break;
+            case "2":
+                Console.WriteLine("You selected User");
+                break;
+            default:
+                Console.WriteLine("Invalid choice");
+                break;
+        }
+        Console.Write("Enter Date of Birth (MM/DD/YYYY): ");
+        DateTime dob;
+        if (!DateTime.TryParse(Console.ReadLine(), out dob) || dob > DateTime.Now)
+        {
+            Console.WriteLine("Invalid date of birth. Account creation failed.");
             return;
         }
-
+        int age = DateTime.Now.Year - dob.Year;
+        if (DateTime.Now.Month < dob.Month || (DateTime.Now.Month == dob.Month && DateTime.Now.Day < dob.Day))
+        {
+            age--;
+        }
         Console.Write("Enter Initial Balance: ");
         decimal balance;
         if (!decimal.TryParse(Console.ReadLine(), out balance) || balance < 0)
@@ -279,27 +253,20 @@ class BankSystem
             return;
         }
 
-        // Create account and add to the list
-        Account newAccount = new Account(email, name, age, balance,role);
-        accounts.Add(newAccount);
-
         Console.WriteLine("Account created successfully!");
+        Account account = new Account(email, name, age, balance, role =="Admin" ? Account.UserTypes.Admin : Account.UserTypes.User);
+        accounts.Add(account);
+        accounts.Find(a => a.Email == email);
+        Console.WriteLine($"Email: {account.Email}, Name: {account.Name},Balance: {account.Balance} {account.Age},UserType: {account.UserType}");
+        FileHandler.WriteAccountsToFile(accounts);
     }
-
-
     static void DeleteAccount()
     {
         Console.WriteLine("\nDeleting Account...");
-
-        // Display active accounts
-        ViewActiveAccounts();
-
         Console.Write("Enter Account Email to Delete: ");
         string email = Console.ReadLine();
-
         // Find the account by email
         Account account = accounts.Find(a => a.Email == email);
-
         if (account != null)
         {
             accounts.Remove(account);
@@ -310,21 +277,12 @@ class BankSystem
             Console.WriteLine("Account not found. Deletion failed.");
         }
     }
-
-
     static void WithdrawMoney()
     {
         Console.WriteLine("\nWithdrawing Money...");
-
-        // Display active accounts
-        ViewActiveAccounts();
-
         Console.Write("Enter Account Email to Withdraw Money: ");
         string email = Console.ReadLine();
-
-        // Find the account by email
         Account account = accounts.Find(a => a.Email == email);
-
         if (account != null)
         {
             Console.Write("Enter Amount to Withdraw: ");
@@ -352,43 +310,86 @@ class BankSystem
     }
     static void UpdateCustomerInfo()
     {
-        Console.WriteLine("\nUpdating Customer Info...");
+        Console.WriteLine("\nUpdating Customer Information...");
+        Console.Write("Enter the Email of the customer you want to update: ");
+        string emailToUpdate = Console.ReadLine();
 
-        // Display active accounts
-        ViewActiveAccounts();
 
-        Console.Write("Enter Account Email to Update Info: ");
-        string email = Console.ReadLine();
 
-        // Find the account by email
-        Account account = accounts.Find(a => a.Email == email);
 
-        if (account != null)
+        Account customer = accounts.Find(a => a.Email == emailToUpdate);
+
+
+        if (customer == null)
         {
-            Console.Write("Enter New Email: ");
-            string newEmail = Console.ReadLine();
-
-            Console.Write("Enter Phone: ");
-            string newPhone = Console.ReadLine();
-
-            account.UpdateInfo(newEmail, newPhone);
-            Console.WriteLine($"Customer info for {account.Email} updated successfully.");
+            Console.WriteLine("Customer not found. Update failed.");
+            return;
         }
-        else
+
+        Console.WriteLine("Enter the new Name: ");
+        string newName = Console.ReadLine();
+        if (!string.IsNullOrEmpty(newName))
         {
-            Console.WriteLine("Account not found. Operation failed.");
+            customer.Name = newName;
         }
+        Console.WriteLine("Enter the new Role (1 for Admin, 2 for User): ");
+        string newRole = Console.ReadLine();
+        if (!string.IsNullOrEmpty(newRole))
+        {
+            switch (newRole)
+            {
+                case "1":
+                    customer.UserType = Account.UserTypes.Admin;
+                    break;
+                case "2":
+                    customer.UserType = Account.UserTypes.User;
+                    break;
+                default:
+                    Console.WriteLine("Invalid role. Update failed.");
+                    return;
+            }
+        }
+        Console.WriteLine("Enter the new Date of Birth (MM/DD/YYYY, leave blank to keep current): ");
+        string dobInput = Console.ReadLine();
+        if (!string.IsNullOrEmpty(dobInput))
+        {
+            if (!DateTime.TryParse(dobInput, out DateTime newDOB) || newDOB > DateTime.Now)
+            {
+                Console.WriteLine("Invalid date of birth. Update failed.");
+                return;
+            }
+            customer.Age = DateTime.Now.Year - newDOB.Year;
+            if (DateTime.Now.Month < newDOB.Month || (DateTime.Now.Month == newDOB.Month && DateTime.Now.Day < newDOB.Day))
+            {
+                customer.Age--;
+            }
+        }
+        Console.WriteLine("Enter the new Balance : ");
+        string balanceInput = Console.ReadLine();
+        if (!string.IsNullOrEmpty(balanceInput))
+        {
+            if (!decimal.TryParse(balanceInput, out decimal newBalance) || newBalance < 0)
+            {
+                Console.WriteLine("Invalid balance. Update failed.");
+                return;
+            }
+            customer.Balance = newBalance;
+        }
+        Console.WriteLine("Customer information updated successfully!");
+        Console.WriteLine($"Email: {customer.Email}, Name: {customer.Name}, Balance: {customer.Balance}, Age: {customer.Age}, UserType: {customer.UserType}");
+        FileHandler.WriteAuditToFile(accounts);
     }
-
-
-    static void ViewAccountInfo()
-    {
-        List<Account> accounts = FileHandler.ReadAccountsFromFile();
-        Console.WriteLine(accounts);
-
-
-
-    }
-
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

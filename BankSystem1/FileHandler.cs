@@ -4,47 +4,36 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-class FileHandler
+class FileHandler 
 {
-    private static string accountsFilePath = @"E:\\BankSystem1-master\\A.txt";
-    private static string auditFilePath = @"E:\\BankSystem1-master\\B.txt";
-
-    public static List<Account> ReadAccountsFromFile()
-    {
-        List<Account> accounts = new List<Account>();
-
-        try
-        {
-            using (StreamReader reader = new StreamReader(accountsFilePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] accountData = line.Split(',');
-
-                }
-            }
-
-
-        }
-
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error reading accounts file: {ex.Message}");
-        }
-
-        return accounts;
-    }
-
+    static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Files", "A.txt");
+    static string auditFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Files", "B.txt");
     public static void WriteAccountsToFile(List<Account> accounts)
     {
         try
         {
-            using (StreamWriter writer = new StreamWriter(accountsFilePath ,append: true))
+            //when Add New Account I want to save the last Id .
+            List<string> lines = new List<string>();
+            int newId = 1;
+
+            if (File.Exists(filePath))
             {
-                foreach (var account in accounts)
+                string[] existingLines = File.ReadAllLines(filePath);
+                if (existingLines.Length > 0)
                 {
-                    writer.WriteLine($"{account.Id},{account.Email},{account.Name},{account.Age},{account.Balance},{account.IsActive},{account.Role}");
+                    string lastLine = existingLines[existingLines.Length - 1];
+                    string[] lastLineParts = lastLine.Split(',');
+                    int lastId = int.Parse(lastLineParts[0]);
+                    newId = lastId + 1;
+                }
+            }
+
+            using (StreamWriter writer = new StreamWriter(filePath, append: true))
+            {
+                foreach (var user in accounts)
+                {
+                    writer.WriteLine($"{newId},{user.Email},{user.Name},{user.Age},{user.Balance},{user.IsActive},{user.UserType}");
+                    newId++;
                 }
             }
         }
@@ -53,8 +42,7 @@ class FileHandler
             Console.WriteLine($"Error writing accounts file: {ex.Message}");
         }
     }
-
-    public static void WriteAuditToFile(List<Account> accounts, Account loggedInAccount)
+    public static void WriteAuditToFile(List<Account> accounts)
     {
         try
         {
@@ -65,15 +53,10 @@ class FileHandler
 
                 foreach (var account in accounts)
                 {
-                    writer.WriteLine($"Email: {account.Email}, Name: {account.Name}, Balance: ${account.Balance}");
+                    writer.WriteLine($"Email: {account.Email}, Name: {account.Name},{account.Age}, Balance: ${account.Balance},{account.PhoneNumber}");
                 }
 
                 writer.WriteLine("-------------------------------------------------\n");
-
-                if (loggedInAccount != null)
-                {
-                    writer.WriteLine($"Operation by Admin - Customer: {loggedInAccount.Email}");
-                }
             }
         }
         catch (Exception ex)

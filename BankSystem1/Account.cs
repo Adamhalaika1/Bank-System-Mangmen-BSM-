@@ -10,15 +10,15 @@ namespace BankSystem1
     {
         public int Id { get; }
         private static int nextId = 1;
-        public string Role { get; set; }
         public string Email { get; private set; }
         public string Name { get; set; }
         public int Age { get; set; }
-        public decimal Balance { get; private set; }
+        public decimal Balance { get;  set; }
         public string PhoneNumber { get; set; }
         public bool IsActive { get; private set; }
-
-        public Account(string email, string name, int age, decimal balance,string role)
+        public enum UserTypes { Admin, User }
+        public UserTypes UserType { get; set; }
+        public Account(string email, string name, int age, decimal balance, UserTypes userType)
         {
             Id = nextId++;
             Email = email;
@@ -26,11 +26,8 @@ namespace BankSystem1
             Age = age;
             Balance = balance;
             IsActive = true;
-            Role = role;
-
-
+            UserType = userType;
         }
-
         public void Deposit(decimal amount)
         {
             Balance += amount;
@@ -38,6 +35,7 @@ namespace BankSystem1
 
         public bool Withdraw(decimal amount)
         {
+
             if (Balance >= amount)
             {
                 Balance -= amount;
@@ -51,10 +49,21 @@ namespace BankSystem1
             IsActive = !IsActive;
         }
 
-        public void UpdateInfo(string newEmail, string newPhoneNumber)
+        public void UpdateInfo(string newEmail)
         {
-            Email = newEmail;
-            PhoneNumber = newPhoneNumber;
+            try
+            {
+                if (string.IsNullOrEmpty(newEmail))
+                {
+                    throw new ArgumentException("Email cannot be empty");
+                }
+
+                Email = newEmail;
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine("Warning: " + ex.Message);
+            }
         }
     }
 }
