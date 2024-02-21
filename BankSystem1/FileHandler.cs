@@ -6,8 +6,6 @@ using System.IO;
 
 class FileHandler 
 {
-    static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Files", "A.txt");
-    static string auditFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Files", "B.txt");
     public static void WriteAccountsToFile(List<Account> accounts)
     {
         try
@@ -16,9 +14,9 @@ class FileHandler
             List<string> lines = new List<string>();
             int newId = 1;
 
-            if (File.Exists(filePath))
+            if (File.Exists("Files/A.txt"))
             {
-                string[] existingLines = File.ReadAllLines(filePath);
+                string[] existingLines = File.ReadAllLines("Files/A.txt");
                 if (existingLines.Length > 0)
                 {
                     string lastLine = existingLines[existingLines.Length - 1];
@@ -28,7 +26,7 @@ class FileHandler
                 }
             }
 
-            using (StreamWriter writer = new StreamWriter(filePath, append: true))
+            using (StreamWriter writer = new StreamWriter("Files/A.txt", append: true))
             {
                 foreach (var user in accounts)
                 {
@@ -46,7 +44,7 @@ class FileHandler
     {
         try
         {
-            using (StreamWriter writer = new StreamWriter(auditFilePath, append: true))
+            using (StreamWriter writer = new StreamWriter("Files/B.txt", append: true))
             {
                 writer.WriteLine($"Audit - {DateTime.Now}");
                 writer.WriteLine("-------------------------------------------------");
