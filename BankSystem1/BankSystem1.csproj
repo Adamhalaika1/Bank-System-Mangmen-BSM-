@@ -11,4 +11,10 @@
     <Folder Include="Files\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Files\A.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

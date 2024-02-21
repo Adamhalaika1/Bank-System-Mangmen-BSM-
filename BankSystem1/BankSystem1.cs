@@ -9,7 +9,8 @@ using System.Xml.Linq;
 
 class BankSystem
 {
-    static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Files", "A.txt");
+    //static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Files", "A.txt");
+
     private static bool isRunning = true;
     static List<Account> accounts = new List<Account>();
     static void Main()
@@ -41,7 +42,7 @@ class BankSystem
     static User ValidateUser(string username, string password)
     {
         User user = null;
-        string[] lines = File.ReadAllLines(filePath);
+        string[] lines = File.ReadAllLines("Files/A.txt");
 
         foreach (string line in lines)
         {
@@ -62,11 +63,11 @@ class BankSystem
     }
     private static void MainMenu(User user)
     {
-        if (user.IsAdmin())
+        if (user.UserType== User.UserTypes.Admin)
         {
             AdminMainMenu(user);
         }
-        else if (user.IsUser())
+        else if (user.UserType == User.UserTypes.User)
         {
             UserMainMenu(user);
         }
@@ -99,7 +100,7 @@ class BankSystem
                         DepositMoney();
                         break;
                     case 3:
-                        ViewActiveAccounts(filePath);
+                        ViewActiveAccounts("Files/A.txt");
                         break;
                     case 4:
                         ActivateDeactivateAccount();

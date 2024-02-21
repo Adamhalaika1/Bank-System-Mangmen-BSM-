@@ -31,18 +31,26 @@ namespace BankSystem1
 
         public virtual void PrintUserType()
         {
-            Console.WriteLine("Login successful as user!");
+            if (this.UserType == User.UserTypes.Admin)
+            {
+                Console.WriteLine("Welcom Admin " + this.Name);
+            }
+            else if (this.UserType == User.UserTypes.User)
+            {
+                Console.WriteLine("Welcom User "+this.Name);
+            }
+
         }
 
-        public bool IsAdmin()
-        {
-            return true;
-        }
+        //public bool IsAdmin()
+        //{
+        //    return true;
+        //}
 
-        public bool IsUser()
-        {
-            return false;
-        }
+        //public bool IsUser()
+        //{
+        //    return false;
+        //}
     }
 
 }

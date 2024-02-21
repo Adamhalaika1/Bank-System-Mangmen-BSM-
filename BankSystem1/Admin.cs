@@ -16,13 +16,13 @@ namespace BankSystem1
         {
             Console.WriteLine("Login successful as Admin!");
         }
-        public bool IsAdmin()
-        {
-            return true;
-        }
-        public bool IsUser()
-        {
-            return false;
-        }
+        //public bool IsAdmin()
+        //{
+        //    return true;
+        //}
+        //public bool IsUser()
+        //{
+        //    return false;
+        //}
     }
 }
