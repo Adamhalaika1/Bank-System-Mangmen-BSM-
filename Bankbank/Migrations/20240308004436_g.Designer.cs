@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bankbank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240303172430_Add")]
-    partial class Add
+    [Migration("20240308004436_g")]
+    partial class g
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,11 +28,8 @@ namespace Bankbank.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AccountNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AccountStatus")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("AccountStatus")
+                        .HasColumnType("bit");
 
                     b.Property<string>("AccountType")
                         .HasColumnType("nvarchar(max)");
@@ -40,7 +37,7 @@ namespace Bankbank.Migrations
                     b.Property<decimal?>("CurrentBalance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateClosed")
@@ -139,7 +136,9 @@ namespace Bankbank.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LoanId");
+                    b.HasIndex("LoanId")
+                        .IsUnique()
+                        .HasFilter("[LoanId] IS NOT NULL");
 
                     b.ToTable("LoanPayment");
                 });
@@ -211,6 +210,9 @@ namespace Bankbank.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -228,7 +230,9 @@ namespace Bankbank.Migrations
                 {
                     b.HasOne("Bankbank.Entities.Users", "Customer")
                         .WithMany("Account")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Bankbank.Entities.Loan", b =>
@@ -241,8 +245,8 @@ namespace Bankbank.Migrations
             modelBuilder.Entity("Bankbank.Entities.LoanPayment", b =>
                 {
                     b.HasOne("Bankbank.Entities.Loan", "Loan")
-                        .WithMany("LoanPayment")
-                        .HasForeignKey("LoanId");
+                        .WithOne("LoanPayment")
+                        .HasForeignKey("Bankbank.Entities.LoanPayment", "LoanId");
                 });
 
             modelBuilder.Entity("Bankbank.Entities.Transactions", b =>

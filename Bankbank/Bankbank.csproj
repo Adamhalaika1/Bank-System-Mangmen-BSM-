@@ -168,15 +168,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext\AppDbContext.cs" />
-    <Compile Include="Migrations\20240303172430_Add.cs" />
-    <Compile Include="Migrations\20240303172430_Add.designer.cs">
-      <DependentUpon>20240303172430_Add.cs</DependentUpon>
+    <Compile Include="Migrations\20240308001439_Update.cs" />
+    <Compile Include="Migrations\20240308001439_Update.designer.cs">
+      <DependentUpon>20240308001439_Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20240308003748_1.cs" />
+    <Compile Include="Migrations\20240308003748_1.designer.cs">
+      <DependentUpon>20240308003748_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20240308004436_g.cs" />
+    <Compile Include="Migrations\20240308004436_g.designer.cs">
+      <DependentUpon>20240308004436_g.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20240310000649_add_ManytoManyrelationship.cs" />
+    <Compile Include="Migrations\20240310000649_add_ManytoManyrelationship.designer.cs">
+      <DependentUpon>20240310000649_add_ManytoManyrelationship.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Branch.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Loan.cs" />
     <Compile Include="Models\LoanPaymentcs.cs" />
+    <Compile Include="Models\UserBranch.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\Transactions.cs" />
     <Compile Include="Program.cs" />

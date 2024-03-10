@@ -18,7 +18,7 @@ namespace Bankbank.Entities
         public int? CustomerId { get; set; }
 
         public virtual Users Customer { get; set; }
-        public virtual ICollection<LoanPayment> LoanPayment { get; set; }
+        public virtual LoanPayment LoanPayment { get; set; }
 
 
 

@@ -4,14 +4,16 @@ using Bankbank.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bankbank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240308001439_Update")]
+    partial class Update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,21 +226,6 @@ namespace Bankbank.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Bankbank.Models.UserBranch", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BranchId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "BranchId");
-
-                    b.HasIndex("BranchId");
-
-                    b.ToTable("UserBranches");
-                });
-
             modelBuilder.Entity("Bankbank.Entities.Account", b =>
                 {
                     b.HasOne("Bankbank.Entities.Users", "Customer")
@@ -280,23 +267,8 @@ namespace Bankbank.Migrations
             modelBuilder.Entity("Bankbank.Entities.Users", b =>
                 {
                     b.HasOne("Bankbank.Entities.Branch", "Branch")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("BranchId");
-                });
-
-            modelBuilder.Entity("Bankbank.Models.UserBranch", b =>
-                {
-                    b.HasOne("Bankbank.Entities.Branch", "Branch")
-                        .WithMany("UserBranches")
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bankbank.Entities.Users", "User")
-                        .WithMany("UserBranches")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
