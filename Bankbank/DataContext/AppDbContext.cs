@@ -26,7 +26,7 @@ namespace Bankbank.DataContext
                 .HasForeignKey(ub => ub.BranchId);
         }
 
-        public virtual DbSet<Account> Account { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Branch> Branch { get; set; }
         public virtual DbSet<Loan> Loan { get; set; }

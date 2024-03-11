@@ -12,35 +12,83 @@ namespace Bankbank.Entities
         public int Id { get; set; }
         public string AccountType { get; set; }
         public decimal? CurrentBalance { get; set; }
+
         public DateTime? DateOpened { get; set; }
         public DateTime? DateClosed { get; set; }
-        public bool AccountStatus { get; set; }
+        public AccountStatus AccountStatus { get; set; }
         public int CustomerId { get; set; }
         public virtual Users Customer { get; set; }
         public virtual ICollection<Transactions> Transactions { get; set; }
 
         public static Account currentAccount;
-        public Account(int customerId, string accountType, decimal currentBalance, DateTime dateTime, bool accountStatus)
+        public Account(int customerId, string accountType, decimal currentBalance, DateTime dateTime, AccountStatus accountStatus)
         {
-            this.CustomerId = customerId;
-            this.AccountType = accountType;
-            this.CurrentBalance = currentBalance;
-            this.AccountStatus = accountStatus;
-            this.DateOpened = dateTime;
+            CustomerId = customerId;
+            AccountType = accountType;
+            CurrentBalance = currentBalance;
+            AccountStatus = accountStatus;
+            DateOpened = dateTime;
         }
         public Account()
         {
             // Parameterless constructor for Entity Framework
         }
-        public enum AccountTypes
+        public void DepositAmount(decimal amount)
         {
-            CurrentAccount,
-            SavingAccount,
-            checkingAccount,
+            if (amount <= 0)
+            {
+                throw new ArgumentException("Deposit amount must be greater than zero.");
+            }
+
+            CurrentBalance += amount;
+
+            using (var context = new AppDbContext())
+            {
+                var accountToUpdate = context.Accounts.Find(Id);
+                if (accountToUpdate != null)
+                {
+                    accountToUpdate.CurrentBalance = CurrentBalance;
+                    context.SaveChanges();
+                }
+            }
         }
+        public void Withdraw(decimal amount)
+        {
+            if (amount <= 0)
+            {
+                throw new ArgumentException("Wihdraw amount must be greater than zero.");
+            }
+
+            CurrentBalance -= amount;
+
+            using (var context = new AppDbContext())
+            {
+                var accountToUpdate = context.Accounts.Find(Id);
+                if (accountToUpdate != null)
+                {
+                    accountToUpdate.CurrentBalance = CurrentBalance;
+                    context.SaveChanges();
+                }
+            }
+        }
+
 
     }
 
-
-
 }
+
+public enum AccountTypes
+{
+    CurrentAccount,
+    SavingAccount,
+    checkingAccount,
+}
+public enum AccountStatus
+{
+    Active,
+    InActive
+}
+
+
+
+

@@ -90,13 +90,12 @@ namespace Bankbank.Models
                     Console.WriteLine("You have selected: " + selectedAccountType);
 
                     DateTime dateTime = DateTime.Now;
-                    bool isActive = true;
                     decimal currentBalance = 0;
-                    if (user.Account == null)
+                    if (user.Account == null)  
                     {
                         user.Account = new List<Account>();
                     }
-                    Account account = new Account(user.Id, selectedAccountType.ToString(), currentBalance, dateTime, isActive);
+                    Account account = new Account(user.Id, selectedAccountType.ToString(), currentBalance, dateTime, AccountStatus.Active);
                     user.Account.Add(account);
                     context.SaveChanges();
                     Console.Clear();
@@ -128,7 +127,7 @@ namespace Bankbank.Models
                     var accountToDelete = user.Account.FirstOrDefault(a => a.AccountType == selectedAccountType.ToString());
                     if (accountToDelete != null)
                     {
-                        context.Account.Remove(accountToDelete);
+                        context.Accounts.Remove(accountToDelete);
                         context.SaveChanges();
                         Console.WriteLine("Account deleted successfully.");
                     }
@@ -191,7 +190,7 @@ namespace Bankbank.Models
             if (userInput.ToUpper() == "Y")
             {
                 bool noActive = false;
-                account.AccountStatus = noActive;
+                //account.AccountStatus = noActive;
                 Console.WriteLine("Account status updated to 'Not Active'.");
             }
 

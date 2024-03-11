@@ -43,6 +43,8 @@ namespace Bankbank.Entities
                 string email = Console.ReadLine();
                 Console.Write("Enter your password: ");
                 string password = Console.ReadLine();
+                //var user = context.Users.Include(userItem => userItem.Account).FirstOrDefault(u => u.Email == email);
+
                 currentUser = context.Users.FirstOrDefault(u => u.Email == email && u.Password== password);
                 if (currentUser == null)
                 {

@@ -184,6 +184,14 @@
     <Compile Include="Migrations\20240310000649_add_ManytoManyrelationship.designer.cs">
       <DependentUpon>20240310000649_add_ManytoManyrelationship.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20240310144926_changeAccounttoAccounts.cs" />
+    <Compile Include="Migrations\20240310144926_changeAccounttoAccounts.designer.cs">
+      <DependentUpon>20240310144926_changeAccounttoAccounts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20240310151523_editAccountStatusInAccount.cs" />
+    <Compile Include="Migrations\20240310151523_editAccountStatusInAccount.designer.cs">
+      <DependentUpon>20240310151523_editAccountStatusInAccount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Admin.cs" />
