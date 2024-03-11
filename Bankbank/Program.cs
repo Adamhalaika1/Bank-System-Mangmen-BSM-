@@ -129,7 +129,9 @@ namespace Bankbank
 
                     switch (choice)
                     {
+
                         case 1:
+
                             customer.ReadUser();
                             break;
                         case 2:
