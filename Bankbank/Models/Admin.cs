@@ -1,45 +1,107 @@
 ﻿using Bankbank.DataContext;
 using Bankbank.Entities;
+using Bogus.DataSets;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Bankbank.Models
 {
-    internal class Admin : Users
+    internal class Admin : User
     {
-        public static void CreateUsers()
+        public static void CreateNewUser()
         {
             using (var context = new AppDbContext())
             {
-                Users User = new Users();
-                Console.WriteLine(Role.Admin);
-
-                Console.Write("First Name: ");
-                User.FirstName = Console.ReadLine();
-
-                Console.Write("Last Name: ");
-                User.LastName = Console.ReadLine();
-
-                Console.Write("Date of Birth (MM/DD/YYYY): ");
-                if (DateTime.TryParse(Console.ReadLine(), out DateTime dob))
+                User User = new User();
+                Console.Clear();
+                Console.Write("Create a new User : .\n");
+                while (true)
                 {
-                    User.DateOfBirth = dob;
+                    Console.Write("First Name: ");
+                    User.FirstName = Console.ReadLine();
+
+                    if (string.IsNullOrEmpty(User.FirstName) || User.FirstName.Any(char.IsDigit))
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid first name without numbers.");
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
-                else
+                while (true)
                 {
-                    Console.WriteLine("Invalid date format. Defaulting to current date.");
-                    User.DateOfBirth = DateTime.Now;
+                    Console.Write("Last Name: ");
+                    User.LastName = Console.ReadLine();
+
+                    if (string.IsNullOrEmpty(User.LastName) || User.LastName.Any(char.IsDigit))
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid first name without numbers.");
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                while (true)
+                {
+                    Console.Write("Date of Birth (MM/DD/YYYY): ");
+                    string input = Console.ReadLine();
+
+                    if (!string.IsNullOrWhiteSpace(input) && DateTime.TryParseExact(input, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dob))
+
+                        if (dob.Year >= 1900 && dob.Year <= DateTime.Now.Year)
+                        {
+                            User.DateOfBirth = dob;
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid year. Please enter a year between 1900 and the current year.");
+                        }
                 }
 
-                Console.Write("Email: ");
-                User.Email = Console.ReadLine();
 
-                Console.Write("PhoneNumber: ");
-                User.PhoneNumber = Console.ReadLine();
+                while (true)
+                {
+                    Console.Write("Enter the Email : ");
+                    string input = Console.ReadLine();
+
+                    if (IsValidEmail(input))
+                    {
+                        User.Email = input;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid email format. Please enter a valid email address.");
+                    }
+                }
+
+                while (true)
+                {
+                    Console.Write("Phone Number: ");
+                    string phoneNumber = Console.ReadLine();
+
+                    if (IsValidPhoneNumber(phoneNumber))
+                    {
+                        User.PhoneNumber = phoneNumber;
+                        break;
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid phone number format. Please enter a 10-digit phone number.");
+                    }
+                }
+
 
                 Console.Write("Address: ");
                 User.Address = Console.ReadLine();
@@ -68,7 +130,6 @@ namespace Bankbank.Models
                 {
                     Console.WriteLine("Invalid choice. Defaulting to User.");
                     User.UserType = Role.Customer;
-
                 }
                 context.Users.Add(User);
                 context.SaveChanges();
@@ -78,6 +139,26 @@ namespace Bankbank.Models
             }
 
         }
+
+
+        // Function to validate email using regular expression
+        private static bool IsValidEmail(string email)
+        {
+            // Regex pattern for basic email validation
+            string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+            Regex regex = new Regex(pattern);
+            return regex.IsMatch(email);
+        }
+        private static bool IsValidPhoneNumber(string phoneNumber)
+        {
+            // Regex pattern for validating a phone number with exactly ten digits
+            string pattern = @"^\d{10}$"; // This pattern matches exactly 10 digits
+
+            Regex regex = new Regex(pattern);
+            return regex.IsMatch(phoneNumber);
+        }
+
+
         public void UpdateUser(string email)
         {
             using (var context = new AppDbContext())
@@ -89,20 +170,44 @@ namespace Bankbank.Models
                     Console.WriteLine("User not found.");
                     return;
                 }
-                Console.Write("New Email: ");
-                user.Email = Console.ReadLine();
 
-                Console.Write("New PhoneNumber: ");
-                user.PhoneNumber = Console.ReadLine();
+                Console.Write("New Phone Number: ");
+                string newPhoneNumber = Console.ReadLine();
+                if (string.IsNullOrEmpty(newPhoneNumber))
+                {
+                    Console.WriteLine("Phone Number cannot be empty. Previous value will be retained.");
+                }
+                else if (!IsValidPhoneNumber(newPhoneNumber))
+                {
+                    Console.WriteLine("Invalid phone number format. The Value must be 10 Numbers.");
+                }
+                else
+                {
+                    user.PhoneNumber = newPhoneNumber;
+                }
+
 
                 Console.Write("New Address: ");
-                user.Address = Console.ReadLine();
+                string newAddress = Console.ReadLine();
+                if (!string.IsNullOrEmpty(newAddress))
+                {
+                    user.Address = newAddress;
+                }
 
-                Console.Write("New CustomerType: ");
-                user.CustomerType = Console.ReadLine();
+                Console.Write("New Customer Type: ");
+                string newCustomerType = Console.ReadLine();
+                if (!string.IsNullOrEmpty(newCustomerType))
+                {
+                    user.CustomerType = newCustomerType;
+                }
 
                 Console.Write("New City: ");
-                user.City = Console.ReadLine();
+                string newCity = Console.ReadLine();
+                if (!string.IsNullOrEmpty(newCity))
+                {
+                    user.City = newCity;
+                }
+
                 context.SaveChanges();
                 Console.WriteLine("User updated successfully.");
             }

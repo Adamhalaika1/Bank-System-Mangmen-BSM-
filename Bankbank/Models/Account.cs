@@ -7,6 +7,17 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 namespace Bankbank.Entities
 {
+    public enum AccountTypes
+    {
+        CurrentAccount,
+        SavingAccount,
+        checkingAccount,
+    }
+    public enum AccountStatus
+    {
+        Active,
+        InActive
+    }
     public partial class Account
     {
         public int Id { get; set; }
@@ -17,7 +28,7 @@ namespace Bankbank.Entities
         public DateTime? DateClosed { get; set; }
         public AccountStatus AccountStatus { get; set; }
         public int CustomerId { get; set; }
-        public virtual Users Customer { get; set; }
+        public virtual User Customer { get; set; }
         public virtual ICollection<Transactions> Transactions { get; set; }
 
         public static Account currentAccount;
@@ -77,17 +88,7 @@ namespace Bankbank.Entities
 
 }
 
-public enum AccountTypes
-{
-    CurrentAccount,
-    SavingAccount,
-    checkingAccount,
-}
-public enum AccountStatus
-{
-    Active,
-    InActive
-}
+
 
 
 

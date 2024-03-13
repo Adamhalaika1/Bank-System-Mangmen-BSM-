@@ -10,8 +10,7 @@ namespace Bankbank.Models
     public class UserBranch
     {
         public int UserId { get; set; }
-        public Users User { get; set; }
-
+        public User User { get; set; }
         public int BranchId { get; set; }
         public Branch Branch { get; set; }
     }

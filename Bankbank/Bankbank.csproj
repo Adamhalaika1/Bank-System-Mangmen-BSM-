@@ -192,6 +192,22 @@
     <Compile Include="Migrations\20240310151523_editAccountStatusInAccount.designer.cs">
       <DependentUpon>20240310151523_editAccountStatusInAccount.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20240312133656_Add-UserNameColumn.cs" />
+    <Compile Include="Migrations\20240312133656_Add-UserNameColumn.designer.cs">
+      <DependentUpon>20240312133656_Add-UserNameColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20240312210711_EdittheLoanTypeandLoanstatus.cs" />
+    <Compile Include="Migrations\20240312210711_EdittheLoanTypeandLoanstatus.designer.cs">
+      <DependentUpon>20240312210711_EdittheLoanTypeandLoanstatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20240313010121_EdittheLoanTypeandLoanstatus1.cs" />
+    <Compile Include="Migrations\20240313010121_EdittheLoanTypeandLoanstatus1.designer.cs">
+      <DependentUpon>20240313010121_EdittheLoanTypeandLoanstatus1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20240313102359_EditUsresTouserTable.cs" />
+    <Compile Include="Migrations\20240313102359_EditUsresTouserTable.designer.cs">
+      <DependentUpon>20240313102359_EditUsresTouserTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -201,7 +217,7 @@
     <Compile Include="Models\Loan.cs" />
     <Compile Include="Models\LoanPaymentcs.cs" />
     <Compile Include="Models\UserBranch.cs" />
-    <Compile Include="Models\Users.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Models\Transactions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
