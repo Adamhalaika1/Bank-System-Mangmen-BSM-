@@ -27,7 +27,7 @@ namespace Bankbank.DataContext
         }
 
         public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Branch> Branch { get; set; }
         public virtual DbSet<Loan> Loan { get; set; }
         public virtual DbSet<LoanPayment> LoanPayment { get; set; }

@@ -14,7 +14,7 @@ namespace Bankbank.Entities
         public int? LoanPaymentId { get; set; }
         public int? AccountId { get; set; }
         public virtual Account Account { get; set; }
-        public virtual Users Employee { get; set; }
+        public virtual User Employee { get; set; }
         public virtual LoanPayment LoanPayment { get; set; }
 
         public Transactions(int id, DateTime? transactionDate, decimal? deposit, decimal? withdraw, int? employeeId, int? loanPaymentId, int? accountId)

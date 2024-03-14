@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bankbank.Models
 {
-    internal class Customer : Users
+    internal class Customer : User
     {
         public void ReadUser()
         {

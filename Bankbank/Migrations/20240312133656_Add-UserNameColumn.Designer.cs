@@ -4,14 +4,16 @@ using Bankbank.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bankbank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240312133656_Add-UserNameColumn")]
+    partial class AddUserNameColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,11 +99,11 @@ namespace Bankbank.Migrations
                     b.Property<decimal?>("LoanAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("LoanStatus")
-                        .HasColumnType("int");
+                    b.Property<string>("LoanStatus")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LoanType")
-                        .HasColumnType("int");
+                    b.Property<string>("LoanType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
@@ -177,7 +179,7 @@ namespace Bankbank.Migrations
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("Bankbank.Entities.User", b =>
+            modelBuilder.Entity("Bankbank.Entities.Users", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -241,7 +243,7 @@ namespace Bankbank.Migrations
 
             modelBuilder.Entity("Bankbank.Entities.Account", b =>
                 {
-                    b.HasOne("Bankbank.Entities.User", "Customer")
+                    b.HasOne("Bankbank.Entities.Users", "Customer")
                         .WithMany("Account")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -250,7 +252,7 @@ namespace Bankbank.Migrations
 
             modelBuilder.Entity("Bankbank.Entities.Loan", b =>
                 {
-                    b.HasOne("Bankbank.Entities.User", "Customer")
+                    b.HasOne("Bankbank.Entities.Users", "Customer")
                         .WithMany("Loan")
                         .HasForeignKey("CustomerId");
                 });
@@ -268,7 +270,7 @@ namespace Bankbank.Migrations
                         .WithMany("Transactions")
                         .HasForeignKey("AccountId");
 
-                    b.HasOne("Bankbank.Entities.User", "Employee")
+                    b.HasOne("Bankbank.Entities.Users", "Employee")
                         .WithMany("Transactions")
                         .HasForeignKey("EmployeeId");
 
@@ -277,7 +279,7 @@ namespace Bankbank.Migrations
                         .HasForeignKey("LoanPaymentId");
                 });
 
-            modelBuilder.Entity("Bankbank.Entities.User", b =>
+            modelBuilder.Entity("Bankbank.Entities.Users", b =>
                 {
                     b.HasOne("Bankbank.Entities.Branch", "Branch")
                         .WithMany()
@@ -292,7 +294,7 @@ namespace Bankbank.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Bankbank.Entities.User", "User")
+                    b.HasOne("Bankbank.Entities.Users", "User")
                         .WithMany("UserBranches")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

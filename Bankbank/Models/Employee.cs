@@ -10,7 +10,7 @@ using static Bankbank.Entities.Account;
 
 namespace Bankbank.Models
 {
-    class Employee : Users
+    class Employee : User
     {
         public void ReadUser(string email)
         {
