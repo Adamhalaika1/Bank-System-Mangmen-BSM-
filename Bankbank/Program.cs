@@ -20,6 +20,7 @@ using System.Security.Principal;
 using User = Bankbank.Entities.User;
 using System.Collections.ObjectModel;
 using ConsoleTableExt;
+using Microsoft.EntityFrameworkCore.Design.Internal;
 namespace Bankbank
 {
     internal class Program
@@ -72,7 +73,7 @@ namespace Bankbank
                                 admin.ReadAllUsers();
                                 break;
                             case 6:
-                                Reborts();
+                                Rebort.Reborts();
                                 break;
                             case 7:
                                 Main(args);
@@ -205,149 +206,7 @@ namespace Bankbank
 
             }
         }
-        public static void Reborts()
-        {
-
-
-
-            //1
-            //using (var context = new AppDbContext())
-            //{
-
-            //    var Allusers = GetData(1,10);
-            //    foreach (var user in Allusers)
-            //    {
-            //        Console.WriteLine($"{user.LastName}");
-            //    }
-            //    decimal test = decimal.Parse(Console.ReadLine());
-
-
-            //}
-
-
-            //2 User Report
-            //using (var context = new AppDbContext())
-            //{
-
-            //var users = context.Accounts
-            //    .Join(
-            //          context.Users,
-            //          account => account.CustomerId,
-            //          user => user.Id,
-            //          (account, user) => new
-            //          {
-            //              AccountId = account.Id,
-            //              accountType = account.AccountType,
-            //              user = user.UserName,
-            //          }
-            //    );
-
-            //foreach (var account in users)
-            //    Console.WriteLine($"{account.AccountId} -  {account.accountType}  - {account.user} ");
-            //    decimal test = decimal.Parse(Console.ReadLine());
-
-
-            //}
-
-
-
-            //Rebort Loan
-            //using (var context = new AppDbContext())
-            //{
-
-            //    var users = context.Loan
-            //        .Join(
-            //              context.Users,
-            //              Loan => Loan.CustomerId,
-            //              user => user.Id,
-            //              (Loan, user) => new
-            //              {
-            //                  LoanId = Loan.Id,
-            //                  LoanType = Loan.LoanType,
-            //                  user = user.UserName,
-
-            //              }
-            //        );
-
-            //    foreach (var Loan in users)
-            //        Console.WriteLine($"{Loan.LoanId} -  {Loan.LoanType}  - {Loan.user} ");
-            //    decimal test = decimal.Parse(Console.ReadLine());
-
-
-            //}
-
-
-
-            //}
-
-
-            //Active Accounts Report > 1 
-
-            //This report shows the number of active accounts for each account type.
-
-            //using (var context = new AppDbContext())
-            //{
-            //    var activeAccounts = context.Accounts
-            //        .Where(account => account.AccountStatus == AccountStatus.Active)
-            //        .GroupBy(account => account.AccountType)
-            //        .Select(g => new { AccountType = g.Key, ActiveAccountCount = g.Count() });
-
-            //    foreach (var activeAccount in activeAccounts)
-            //        Console.WriteLine($"{activeAccount.AccountType} -  {activeAccount.ActiveAccountCount} ");
-            //    decimal test = decimal.Parse(Console.ReadLine());
-            //}
-
-            //Loan Details Report > 2
-            //using (var context = new AppDbContext())
-            //{
-            //    var overdueLoans = context.Loan
-            //        .Where(loan => loan.LoanStatus == LoanStatus.ApplicationReceived)
-            //        .Join(context.Users,
-            //            loan => loan.CustomerId,
-            //            customer => customer.Id,
-            //            (loan, customer) => new { CustomerName = customer.FirstName + " " + customer.LastName, loan.LoanType, loan.LoanAmount, loan.InterestRate, loan.StartDate, loan.EndDate })
-            //        .ToList();
-
-            //    ConsoleTableBuilder tableBuilder = ConsoleTableBuilder.From(overdueLoans);
-            //    tableBuilder.ExportAndWriteLine();
-
-            //    decimal test = decimal.Parse(Console.ReadLine());
-            //}
-
-
-            //using (var context = new AppDbContext())
-            //{
-            //    var loansWithNoSeventhMonthPayments = context.Loan
-            //        .GroupJoin(context.LoanPayment,
-            //            loan => loan.Id,
-            //            loanPayment => loanPayment.LoanId,
-            //            (loan, loanPayments) => new { LoanID = loan.Id, LoanType = loan.LoanType, LoanAmount = loan.LoanAmount, InterestRate = loan.InterestRate, StartDate = loan.StartDate, EndDate = loan.EndDate, PaymentCount = loanPayments.Count() })
-            //        .Where(loanPaymentGroup => loanPaymentGroup.PaymentCount == 0)
-            //        .Select(loanPaymentGroup => new { LoanID = loanPaymentGroup.LoanID, LoanType = loanPaymentGroup.LoanType, LoanAmount = loanPaymentGroup.LoanAmount, InterestRate = loanPaymentGroup.InterestRate, StartDate = loanPaymentGroup.StartDate, EndDate = loanPaymentGroup.EndDate })
-            //        .ToList();
-
-            //    foreach (var loan in loansWithNoSeventhMonthPayments)
-            //        Console.WriteLine($"{loan.LoanID} - {loan.LoanType} - {loan.LoanAmount} - {loan.InterestRate} - {loan.StartDate} - {loan.EndDate}");
-            //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        }
+    
 
 
     }
