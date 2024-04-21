@@ -21,6 +21,7 @@ using User = Bankbank.Entities.User;
 using System.Collections.ObjectModel;
 using ConsoleTableExt;
 using Microsoft.EntityFrameworkCore.Design.Internal;
+using Bankbank.Repo;
 namespace Bankbank
 {
     internal class Program
@@ -30,8 +31,7 @@ namespace Bankbank
 
             try
             {
-                //
-
+                //Model
                 User users = new User();
                 Employee employee = new Employee();
                 Customer customer = new Customer();
@@ -39,7 +39,28 @@ namespace Bankbank
                 Loan loan = new Loan();
                 LoanPayment loanpayment = new LoanPayment();
                 IUserReader admin = new Employee();
-                users.Login();
+                //users.Login();
+
+                //Repo
+                using (var context = new AppDbContext())
+                {
+                    //IUserRepository userRepository = new UserRepository(context);
+                    IUserRepository userRepository = new UserRepository();
+                    UserService userService = new UserService(userRepository);
+                    GetFunctionUser functionUser = new GetFunctionUser();
+                    functionUser.ListAllUsers(userService);
+
+                    //functionUser.AddUser(userService);
+                    //functionUser.RetrieveUser(userService);
+                    //functionUser.UpdateUser(userService);
+                    //functionUser.DeleteUser(userService);
+                    Thread.Sleep(100000);
+                    context.SaveChanges();
+
+
+                }
+
+
                 if (currentUser.UserType == Role.Admin)
                 {
                     while (true)
@@ -206,8 +227,8 @@ namespace Bankbank
 
             }
         }
-    
 
+        
 
     }
 }
