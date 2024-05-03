@@ -1,0 +1,8 @@
+C:\Users\mtit\Downloads\Bank-System-Mangmen-BSM--Firstreportt\Bankbank\obj\Debug\Bank.DataLayer.csproj.AssemblyReference.cache
+C:\Users\mtit\Downloads\Bank-System-Mangmen-BSM--Firstreportt\Bankbank\obj\Debug\Bank.DataLayer.csproj.CoreCompileInputs.cache
+C:\Users\mtit\Downloads\Bank-System-Mangmen-BSM--Firstreportt\Bankbank\obj\Debug\Bankbank.exe
+C:\Users\mtit\Downloads\Bank-System-Mangmen-BSM--Firstreportt\Bankbank\obj\Debug\Bankbank.pdb
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.DataLayer\obj\Debug\Bank.DataLayer.csproj.AssemblyReference.cache
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.DataLayer\obj\Debug\Bank.DataLayer.csproj.CoreCompileInputs.cache
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.DataLayer\obj\Debug\Bankbank.exe
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.DataLayer\obj\Debug\Bankbank.pdb

@@ -1,0 +1,12 @@
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\bin\Debug\net6.0\Bank.Infrastructre.deps.json
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\bin\Debug\net6.0\Bank.Infrastructre.dll
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\bin\Debug\net6.0\Bank.Infrastructre.pdb
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\obj\Debug\net6.0\Bank.Infrastructre.csproj.AssemblyReference.cache
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\obj\Debug\net6.0\Bank.Infrastructre.GeneratedMSBuildEditorConfig.editorconfig
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\obj\Debug\net6.0\Bank.Infrastructre.AssemblyInfoInputs.cache
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\obj\Debug\net6.0\Bank.Infrastructre.AssemblyInfo.cs
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\obj\Debug\net6.0\Bank.Infrastructre.csproj.CoreCompileInputs.cache
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\obj\Debug\net6.0\Bank.Infrastructre.dll
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\obj\Debug\net6.0\refint\Bank.Infrastructre.dll
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\obj\Debug\net6.0\Bank.Infrastructre.pdb
+E:\Bank-System-Mangmen-BSM--BankAPIFirst\Bank-System-Mangmen-BSM--BankAPIFirst\Bank.Infrastructre\obj\Debug\net6.0\ref\Bank.Infrastructre.dll
